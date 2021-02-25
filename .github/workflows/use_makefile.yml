@@ -1,0 +1,37 @@
+name: From makefile
+on:
+  push:
+    branches: [master]
+
+jobs:
+  linting:
+    name: Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Init Repository
+        uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          pip install -r requirements-dev.txt
+      - name: Run liting
+        run: make lint
+  testing:
+    name: Testing
+    needs: [linting]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Init Repository
+        uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          pip install -r requirements-dev.txt
+      - name: Run tests
+        run: make test
