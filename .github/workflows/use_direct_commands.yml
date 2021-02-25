@@ -1,0 +1,27 @@
+name: From commands
+on:
+  push:
+    branches: [master]
+
+jobs:
+  flake8:
+    name: Lint using flake8
+    runs-on: ubuntu-latest
+    steps:
+      - name: Init Repository
+        uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          pip install -r requirements-dev.txt
+          pip install -r requirements-test.txt
+      - name: Run liting
+        run: |
+          black ./src ./tests
+          flake8 . --show-source --statistics
+          isort src/ -rc
+      - name: Run liting
+        run: python -m pytest
