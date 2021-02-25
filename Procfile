@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath=src --log-file app:app
+web: gunicorn --pythonpath src app:app -
